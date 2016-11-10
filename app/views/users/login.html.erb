@@ -1,0 +1,19 @@
+<h1>Welcome back <%=@user1.user_id%></h1>
+<h4>Full Name: <%=@user1.full_name%></h4>
+<h4>Address: <%=@user1.street_address%></h4>
+<h4>City: <%=@user1.city%></h4>
+<h4>State: <%=@user1.state%></h4>
+<h4>Postal: <%=@user1.postal_code%></h4>
+<h4>Country: <%=@user1.country%></h4>
+<h4>Email: <%=@user1.email_address%></h4>
+
+
+<% if @user1.phones.length > 0 %>
+  <% @user1.phones.each do |phone| %>
+  <ul>
+    <li>Phone: <%= phone.number %></li>
+  </ul>
+      <% end %>
+<% else %>
+ <h4> No Phones </h4>
+<% end %>
