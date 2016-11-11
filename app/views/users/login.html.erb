@@ -7,13 +7,15 @@
 <h4>Country: <%=@user1.country%></h4>
 <h4>Email: <%=@user1.email_address%></h4>
 
-
+<!-- #checks to see if user object has a phone instance  -->
 <% if @user1.phones.length > 0 %>
+   <!--go through every phone the user has-->
   <% @user1.phones.each do |phone| %>
-  <ul>
-    <li>Phone: <%= phone.number %></li>
-  </ul>
-      <% end %>
+    <ul>
+      <!--print out phone number-->
+      <li>Phone: <%= phone.number %></li>
+    </ul>
+  <% end %>
 <% else %>
  <h4> No Phones </h4>
 <% end %>

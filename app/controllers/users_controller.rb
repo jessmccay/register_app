@@ -7,47 +7,54 @@ class UsersController < ApplicationController
 
     if params[:user_id].nil? || params[:user_id].strip.empty? || params[:password].nil? || params[:password].nil?
 
-      redirect_to "/"
+      redirect_to "/" and return
 
     else
 
-      @user = User.new
-      @user.user_id = params[:user_id]
-      @user.password = params[:password]
-      @user.full_name = params[:full_name]
-      @user.street_address = params[:street_address]
-      @user.city = params[:city]
-      @user. state = params[:state]
-      @user.country = params[:country]
-      @user.postal_code = params[:postal_code]
-      @user.email_address = params[:email_address]
-      @user.save
+      if User.find_by_user_id(params[:user_id]).nil?
+        @user = User.new
+        @user.user_id = params[:user_id]
+        @user.password = params[:password]
+        @user.full_name = params[:full_name]
+        @user.street_address = params[:street_address]
+        @user.city = params[:city]
+        @user. state = params[:state]
+        @user.country = params[:country]
+        @user.postal_code = params[:postal_code]
+        @user.email_address = params[:email_address]
+        @user.save
 
+        if !params[:phone1].nil? && !params[:phone1].strip.empty?
+          phone1 = Phone.new
+          phone1.number = params[:phone1]
+          phone1.user = @user
+          phone1.save
+        end
 
-    if !params[:phone1].nil? && !params[:phone1].strip.empty?
-      phone1 = Phone.new
-      phone1.number = params[:phone1]
-      phone1.user = @user
-      phone1.save
-    end
+        if !params[:phone2].nil? && !params[:phone2].strip.empty?
+          phone2 = Phone.new
+          phone2.number = params[:phone2]
+          phone2.user = @user
+          phone2.save
+        end
 
-    if !params[:phone2].nil? && !params[:phone2].strip.empty?
-      phone2 = Phone.new
-      phone2.number = params[:phone2]
-      phone2.user = @user
-      phone2.save
-    end
+        if !params[:phone3].nil? && !params[:phone3].strip.empty?
+          phone3 = Phone.new
+          phone3.number = params[:phone3]
+          phone3.user = @user
+          phone3.save
+        end
 
-    if !params[:phone3].nil? && !params[:phone3].strip.empty?
-      phone3 = Phone.new
-      phone3.number = params[:phone3]
-      phone3.user = @user
-      phone3.save
-    end
+        render :confirmation and return
 
-    render :confirmation
-    end
-  end
+      else
+
+        flash[:notice1] = 'User ID taken, try another'
+        redirect_to '/' and return
+
+      end #end of if for preexisting user ID condition
+    end #end of if for blank fields
+  end #end of def register
 
   def login
 
@@ -82,6 +89,6 @@ class UsersController < ApplicationController
     end
 
 
- end # end of login method
+  end # end of login method
 
 end #end of controller class

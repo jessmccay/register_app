@@ -62,8 +62,42 @@ RSpec.feature "RegistrationPages", type: :feature do
       And "I cannot register" do
         click_button 'Register'
         expect(page).to have_content("Please register!")
-        end
       end
-  end
+    end #end of steps
 
+    Steps 'to register with a preexisting userid' do
+      Given 'I am on the landing page' do
+        visit '/'
+      end
+
+      Then "I can fill out the registration form as a new user" do
+        fill_in 'full_name', with: 'BuBu'
+        fill_in 'street_address', with: '1 CheeChi Way'
+        fill_in 'city', with: 'BangBang'
+        fill_in 'state', with: 'TT'
+        fill_in 'postal_code', with: '0000'
+        fill_in 'country', with: 'Women Rule'
+        fill_in 'phone1', with: '123'
+        fill_in 'phone2', with: '456'
+        fill_in 'phone3', with: '789'
+        fill_in 'email_address', with: 'women@ruleTheWorld.com'
+        fill_in 'user_id', with: 'BuBu4U'
+        fill_in 'password', with: 'women'
+        click_button 'Register'
+      end
+
+      Then 'I try to register again with the same user ID' do
+        visit '/'
+        fill_in 'user_id', with: 'BuBu4U'
+        fill_in 'password', with: 'women'
+        click_button 'Register'
+      end
+
+      And 'I see an error message' do
+        expect(page).to have_content("Please register!")
+        expect(page).to have_content("User ID taken, try another")
+      end
+      
+    end #end of steps
+  end #end of context
 end
